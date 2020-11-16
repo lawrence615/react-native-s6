@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Platform } from 'react-native'
-import Colours from '../constants/Colours'
 
+import Colours from '../constants/Colours'
 import { CATEGORIES } from '../data/dummy-data'
 
 const CategoriesScreen = props => {
