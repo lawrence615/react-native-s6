@@ -2,10 +2,12 @@ import { Platform } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import CategoriesScreen from '../screens/CategoriesScreen'
 import CategoryMealsScreen from '../screens/CategoryMealsScreen'
 import MealDetailScreen from '../screens/MealDetailScreen'
+import FavouritesScreen from '../screens/FavouritesScreen'
 
 import Colours from '../constants/Colours'
 
@@ -30,4 +32,9 @@ const MealsNavigator = createStackNavigator({
   }
 })
 
-export default createAppContainer(MealsNavigator)
+const MealsFavTabNavigator = createBottomTabNavigator({
+  Meals: MealsNavigator,
+  Favourites: FavouritesScreen
+})
+
+export default createAppContainer(MealsFavTabNavigator)
