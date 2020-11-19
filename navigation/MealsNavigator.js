@@ -2,7 +2,7 @@ import React from 'react'
 import { Platform } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createAppContainer } from 'react-navigation'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { Ionicons } from '@expo/vector-icons'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
@@ -14,7 +14,13 @@ import FavouritesScreen from '../screens/FavouritesScreen'
 
 import Colours from '../constants/Colours'
 
-
+const defaultStackNavOptions = {
+  headerStyle: {
+    backgroundColor: Platform.OS === 'android' ? Colours.primaryColour : ''
+  },
+  headerTintColor: Platform.OS === 'android' ? 'white' : Colours.primaryColour,
+  headerTitle: 'A Screen'
+}
 const MealsNavigator = createStackNavigator({
   Categories: {
     screen: CategoriesScreen
@@ -24,15 +30,14 @@ const MealsNavigator = createStackNavigator({
   },
   MealDetail: MealDetailScreen
 }, {
-  // mode:'modal', // shows on ios
-  // initialRouteName:'MealDetail',
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: Platform.OS === 'android' ? Colours.primaryColour : ''
-    },
-    headerTintColor: Platform.OS === 'android' ? 'white' : Colours.primaryColour,
-    headerTitle: 'A Screen'
-  }
+  defaultNavigationOptions: defaultStackNavOptions
+})
+
+const FavNavigator = createStackNavigator({
+  Favs: FavouritesScreen,
+  MealDetail: MealDetailScreen
+}, {
+  defaultNavigationOptions: defaultStackNavOptions
 })
 
 const tabScreenConfig = {
@@ -46,7 +51,7 @@ const tabScreenConfig = {
     }
   },
   Favourites: {
-    screen: FavouritesScreen,
+    screen: FavNavigator,
     navigationOptions: {
       tabBarLabel: 'Favourites!',
       tabBarIcon: (tabInfo) => {
