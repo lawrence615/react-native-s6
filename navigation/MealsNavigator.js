@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform } from 'react-native'
+import { Text, Platform } from 'react-native'
 import { exp } from 'react-native/Libraries/Animated/src/Easing'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
@@ -19,6 +19,12 @@ import Colours from '../constants/Colours'
 const defaultStackNavOptions = {
   headerStyle: {
     backgroundColor: Platform.OS === 'android' ? Colours.primaryColour : ''
+  },
+  headerTitleStyle: {
+    fontFamily:'open-sans-bold'
+  },
+  headerBackTitleStyle:{
+    fontFamily:'open-sans'
   },
   headerTintColor: Platform.OS === 'android' ? 'white' : Colours.primaryColour,
   headerTitle: 'A Screen'
@@ -49,17 +55,19 @@ const tabScreenConfig = {
       tabBarIcon: (tabInfo) => {
         return <Ionicons name='ios-restaurant' size={25} color={tabInfo.tintColor} />
       },
-      tabBarColor: Colours.primaryColour
+      tabBarColor: Colours.primaryColour,
+      tabBarLabel:Platform.OS === 'android' ? <Text style={{fontFamily:'open-sans-bold'}}>Meals</Text> :'Meals'
     }
   },
   Favourites: {
     screen: FavNavigator,
     navigationOptions: {
-      tabBarLabel: 'Favourites!',
+      tabBarLabel: 'Favourites',
       tabBarIcon: (tabInfo) => {
         return <Ionicons name='ios-star' size={25} color={tabInfo.tintColor} />
       },
-      tabBarColor: Colours.accentColour
+      tabBarColor: Colours.accentColour,
+      tabBarLabel:Platform.OS === 'android' ? <Text style={{fontFamily:'open-sans-bold'}}>Meals</Text> :'Favourites'
     }
   }
 }
@@ -71,6 +79,9 @@ const MealsFavTabNavigator = Platform.OS === 'android'
   })
   : createBottomTabNavigator(tabScreenConfig, {
     tabBarOptions: {
+      labelStyle:{
+        fontFamily:'open-sans'
+      },
       activeTintColor: Colours.accentColour
     }
   })
