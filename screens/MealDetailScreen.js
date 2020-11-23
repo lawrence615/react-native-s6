@@ -15,10 +15,16 @@ const ListItem = props => {
 
 
 const MealDetailScreen = props => {
-  const availableMeals = useSelector(state => state.meals.meals)
-  const mealId = props.navigation.getParam('mealId')
+  const mealId = props.navigation.getParam('mealId') // get mealId from param
 
-  const selectedMeal = availableMeals.find(meal => meal.id === mealId)
+  const availableMeals = useSelector(state => state.meals.meals) // fetching all meals
+
+  // check whether the current meal has been marked as favourite
+  const currentMealIsFavourite = useSelector(state =>
+    state.meals.favouriteMeals.some(meal => meal.id === mealId)
+  )
+
+  const selectedMeal = availableMeals.find(meal => meal.id === mealId) // retrieve the meal from the li
 
   const dispatch = useDispatch()
 
@@ -27,9 +33,12 @@ const MealDetailScreen = props => {
   }, [dispatch, mealId])
 
   useEffect(() => {
-    // props.navigation.setParams({ mealTitle: selectedMeal.title })
     props.navigation.setParams({ toggleFav: toggleFavouriteHandler })
   }, [toggleFavouriteHandler])
+
+  useEffect(() => {
+    props.navigation.setParams({ isFav: currentMealIsFavourite })
+  }, [currentMealIsFavourite])
 
 
   console.log('mealId', mealId)
@@ -59,6 +68,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
   // const mealId = navigationData.navigation.getParam('mealId')
   const mealTitle = navigationData.navigation.getParam('mealTitle')
   const toggleFavourite = navigationData.navigation.getParam('toggleFav')
+  const isFavourite = navigationData.navigation.getParam('isFav')
   // const selectedMeal = MEALS.find(meal => meal.id === mealId)
   // console.log('mealId', mealId)
   // console.log('selectedMeal', selectedMeal)
@@ -68,7 +78,7 @@ MealDetailScreen.navigationOptions = (navigationData) => {
     headerRight: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
       <Item
         title='Favourite'
-        iconName='ios-star'
+        iconName={isFavourite ? 'ios-star' : 'ios-star-outline'}
         onPress={toggleFavourite}
       />
     </HeaderButtons>
