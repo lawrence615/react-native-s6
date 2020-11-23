@@ -1,8 +1,8 @@
-import React from 'react'
-import { ScrollView, View, Image, Text, Button, StyleSheet } from 'react-native'
+import React, { useEffect } from 'react'
+import { ScrollView, View, Image, Text, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import { useSelector } from 'react-redux'
 
-import { MEALS } from '../data/dummy-data'
 import HeaderButton from '../components/HeaderButton'
 import DefaultText from '../components/DefaultText'
 
@@ -14,8 +14,16 @@ const ListItem = props => {
 
 
 const MealDetailScreen = props => {
+  const availableMeals = useSelector(state => state.meals.meals)
   const mealId = props.navigation.getParam('mealId')
-  const selectedMeal = MEALS.find(meal => meal.id === mealId)
+
+  const selectedMeal = availableMeals.find(meal => meal.id === mealId)
+
+  // useEffect(() => {
+  //   props.navigation.setParams({ mealTitle: selectedMeal.title })
+  // }, [selectedMeal])
+
+
   console.log('mealId', mealId)
   console.log('selectedMeal', selectedMeal)
 
@@ -41,11 +49,13 @@ const MealDetailScreen = props => {
 
 MealDetailScreen.navigationOptions = (navigationData) => {
   const mealId = navigationData.navigation.getParam('mealId')
-  const selectedMeal = MEALS.find(meal => meal.id === mealId)
-  console.log('mealId', mealId)
-  console.log('selectedMeal', selectedMeal)
+  const mealTitle = navigationData.navigation.getParam('mealTitle')
+  // const selectedMeal = MEALS.find(meal => meal.id === mealId)
+  // console.log('mealId', mealId)
+  // console.log('selectedMeal', selectedMeal)
+  console.log('mealTitle', mealTitle)
   return {
-    headerTitle: selectedMeal.title,
+    headerTitle: mealTitle,
     headerRight: () => <HeaderButtons HeaderButtonComponent={HeaderButton}>
       <Item
         title='Favourite'
@@ -74,12 +84,12 @@ const styles = StyleSheet.create({
     fontSize: 22,
     textAlign: 'center'
   },
-  listItem:{
-    marginVertical:5,
-    marginHorizontal:20,
-    borderColor:'#ccc',
-    borderWidth:1,
-    padding:10
+  listItem: {
+    marginVertical: 5,
+    marginHorizontal: 20,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    padding: 10
   }
 })
 
