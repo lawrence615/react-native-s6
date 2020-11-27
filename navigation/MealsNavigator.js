@@ -22,7 +22,7 @@ const defaultStackNavOptions = {
   },
   headerTitleStyle: {
     fontFamily:'open-sans-bold'
-  },
+  },   
   headerBackTitleStyle:{
     fontFamily:'open-sans'
   },
